@@ -11,7 +11,8 @@ import org.eclipse.swt.widgets.Shell;
 
 public class AbstractSampleImageBuilder {
 	public static void takeSnapshot(String imageName, final Sample createWrapper) {
-		final String fileName = imageName + ".jpg";
+		// TODO Original article used JPG images. PNG would be better.
+		final String fileName = imageName + ".png";
 		Thread thread = new Thread() {
 			public void run() {
 				createWrapper.create();
@@ -43,7 +44,9 @@ public class AbstractSampleImageBuilder {
 				}
 				
 				Rectangle bounds = shell.getBounds();
-				bounds = shell.computeTrim(bounds.x-5, bounds.y-24, bounds.width+10, bounds.height+29);
+				// There's some weirdness in Windows regarding trim
+				// that I don't quite understand.				
+				//bounds = shell.computeTrim(bounds.x-5, bounds.y-24, bounds.width+10, bounds.height+29);
 				
 				Image image = new Image(display, bounds.width, bounds.height);
 				GC gc = new GC(display);
@@ -51,7 +54,7 @@ public class AbstractSampleImageBuilder {
 				
 				ImageLoader loader = new ImageLoader();
 				loader.data = new ImageData[] {image.getImageData()};
-				loader.save(fileName, SWT.IMAGE_JPEG);
+				loader.save(fileName, SWT.IMAGE_PNG);
 				
 				gc.dispose();
 				image.dispose();
